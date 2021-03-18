@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  syncing-server:
+    build: .
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+    ports:
+      - "4500:3000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - "./db-data:/var/lib/mysql"
+
